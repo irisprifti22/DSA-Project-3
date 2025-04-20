@@ -23,6 +23,28 @@ class WelcomeScreen(tk.Tk):
         canvas.pack(fill="both", expand=True)
         canvas.create_image(0, 0, image=self.bg_img, anchor="nw")
 
+        # outer rectangle with 75% opacity
+        outer_margin = 35
+        x0, y0 = outer_margin, outer_margin
+        x1, y1 = 1330 - outer_margin, 750 - outer_margin
+        canvas.create_rectangle(
+            x0, y0, x1, y1,
+            fill="white",
+            stipple="gray50",
+            outline="black",
+            width=2,
+        )
+
+        # inner solid white rectangle
+        inner_inset = 35
+        canvas.create_rectangle(
+            x0 + inner_inset, y0 + inner_inset,
+            x1 - inner_inset, y1 - inner_inset,
+            fill="white",
+            outline="black",
+            width=2,
+        )
+
 # starts running welcome window
 if __name__ == "__main__":
     WelcomeScreen().mainloop()
