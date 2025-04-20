@@ -23,7 +23,7 @@ class WelcomeScreen(tk.Tk):
         canvas.pack(fill="both", expand=True)
         canvas.create_image(0, 0, image=self.bg_img, anchor="nw")
 
-        # outer rectangle with 75% opacity
+        # outer rectangle with semi opacity
         outer_margin = 35
         x0, y0 = outer_margin, outer_margin
         x1, y1 = 1330 - outer_margin, 750 - outer_margin
@@ -45,6 +45,25 @@ class WelcomeScreen(tk.Tk):
             width=2,
         )
 
+        # finding the center
+        cx = 1330 // 2
+
+        # title
+        canvas.create_text(
+	        cx, 250,
+	        text="GameMatcher",
+	        font=("Calisto MT", 110),
+	        fill="black"
+	    )
+        
+        # subtitle
+        self.canvas.create_text(
+	        cx, 285,
+	        text="A Personalized Video Game Recommendation System",
+	        font=("Calisto MT", 22),
+	        fill="black"
+        )
+        
 # starts running welcome window
 if __name__ == "__main__":
     WelcomeScreen().mainloop()
