@@ -50,17 +50,33 @@ class WelcomeScreen(tk.Tk):
 
         # title
         canvas.create_text(
-	        cx, 250,
+	        cx, 260,
 	        text="GameMatcher",
-	        font=("Calisto MT", 110),
+	        font=("Calisto MT", 120),
 	        fill="black"
 	    )
         
         # subtitle
-        self.canvas.create_text(
-	        cx, 285,
+        canvas.create_text(
+	        cx, 370,
 	        text="A Personalized Video Game Recommendation System",
-	        font=("Calisto MT", 22),
+	        font=("Calisto MT", 30),
+	        fill="black"
+        )
+
+        # team members names
+        canvas.create_text(
+	        cx, 620,
+	        text="Team Members: Iris Prifti, Alex Yan, Adiel Garcia",
+	        font=("Calisto MT", 18),
+	        fill="black"
+        )
+
+        # footer with team name
+        canvas.create_text(
+	        cx, 663,
+	        text="Produced by Gamers Solutions",
+	        font=("Calisto MT", 14, "bold"),
 	        fill="black"
         )
         
