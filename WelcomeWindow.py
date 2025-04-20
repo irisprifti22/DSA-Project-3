@@ -1,6 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk  # pip install pillow, import background image from og sketch
-from main import Main
+from Main import Main
 
 # dimensions for base of welcome screen
 class WelcomeScreen(tk.Tk):
