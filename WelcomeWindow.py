@@ -1,7 +1,7 @@
 import tkinter as tk
 from pathlib import Path
 from PIL import Image, ImageTk  # pip install pillow, import background image from og sketch
-from Main import Main
+from Main import MainScreen
 
 # dimensions for base of welcome screen
 class WelcomeScreen(tk.Tk):
@@ -79,6 +79,23 @@ class WelcomeScreen(tk.Tk):
 	        font=("Calisto MT", 14, "bold"),
 	        fill="black"
         )
+
+        # start button
+        btn = tk.Button(
+	        self,
+	        text="Click to Start",
+	        font=("Calisto MT", 30),
+	        width=15,
+	        relief="raised",
+	        bd=4,
+	        command=self.on_start
+	    )
+        canvas.create_window(cx, 500, window=btn)
+
+    # when button is clicked, program closes welcome window and opens main screen
+    def on_start(self):
+        self.destroy()
+        MainScreen().mainloop()
         
 # starts running welcome window
 if __name__ == "__main__":
