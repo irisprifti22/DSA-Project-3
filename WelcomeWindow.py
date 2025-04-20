@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk  # pip install pillow
 
+# dimensions for base of welcome screen
 class WelcomeScreen(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -8,5 +9,6 @@ class WelcomeScreen(tk.Tk):
         self.geometry("1330x750")
         self.resizable(False, False)
 
+# starts running welcome window
 if __name__ == "__main__":
     WelcomeScreen().mainloop()
