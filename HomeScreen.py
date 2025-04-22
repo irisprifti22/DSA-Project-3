@@ -1,20 +1,17 @@
 import tkinter as tk
 from pathlib import Path
-from PIL import Image, ImageTk  # pip install pillow, import background image from og sketch
-from HomeScreen import MainScreen
+from PIL import Image, ImageTk
 
-# dimensions for base of welcome screen
-class WelcomeScreen(tk.Tk):
+# main screen
+class MainScreen(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("GameMatcher - Welcome")
+        self.title("GameMatcher – Start")
         self.geometry("1330x750")
         self.resizable(False, False)
 
-        # correct pathing for background image, makes it easier for team project
         base_dir = Path(__file__).resolve().parent
         img_path = base_dir / "resources" / "images" / "welcomeWindowBackground.jpg"
-
         bg = Image.open(img_path).resize((1330, 750), Image.LANCZOS)
         self.bg_img = ImageTk.PhotoImage(bg)
 
@@ -50,28 +47,37 @@ class WelcomeScreen(tk.Tk):
 
         # title
         canvas.create_text(
-	        cx, 260,
-	        text="GameMatcher",
-	        font=("Calisto MT", 120),
+	        cx, 220,
+	        text=" Welcome to GameMatcher!",
+	        font=("Calisto MT", 50, "bold"),
 	        fill="black"
 	    )
-        
+
         # subtitle
         canvas.create_text(
-	        cx, 370,
-	        text="A Personalized Video Game Recommendation System",
-	        font=("Calisto MT", 30),
-	        fill="black"
-        )
-
-        # team members names
-        canvas.create_text(
-	        cx, 620,
-	        text="Team Members: Iris Prifti, Alex Yan, Adiel Garcia",
+	        cx, 320,
+	        text="Feeling lost in a sea of game titles? Tired of endless browsing? Just enter the name of your favorite",
 	        font=("Calisto MT", 18),
 	        fill="black"
         )
-
+        canvas.create_text(
+	        cx, 355,
+            text="game or your favorite genre, and our smart engine will find the right games that match your taste.",
+	        font=("Calisto MT", 18),
+	        fill="black"
+        )
+        canvas.create_text(
+	        cx, 390,
+            text="We deliver fast, personalized suggestions so you can jump straight into fun!",
+	        font=("Calisto MT", 18),
+	        fill="black"
+        )
+        canvas.create_text(
+	        cx, 480,
+            text="Please select how you will be searching today:",
+	        font=("Calisto MT", 18),
+	        fill="black"
+        )
         # footer with team name
         canvas.create_text(
 	        cx, 663,
@@ -80,23 +86,6 @@ class WelcomeScreen(tk.Tk):
 	        fill="black"
         )
 
-        # start button
-        btn = tk.Button(
-	        self,
-	        text="Click to Start",
-	        font=("Calisto MT", 30),
-	        width=15,
-	        relief="raised",
-	        bd=4,
-	        command=self.on_start
-	    )
-        canvas.create_window(cx, 500, window=btn)
-
-    # when button is clicked, program closes welcome window and opens main screen
-    def on_start(self):
-        self.destroy()
-        MainScreen().mainloop()
-        
-# starts running welcome window
 if __name__ == "__main__":
-    WelcomeScreen().mainloop()
+    # for testing
+    MainScreen().mainloop()
