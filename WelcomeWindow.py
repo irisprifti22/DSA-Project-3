@@ -84,7 +84,7 @@ class WelcomeScreen(tk.Tk):
         btn = tk.Button(
 	        self,
 	        text="Click to Start",
-	        font=("Calisto MT", 30),
+	        font=("Calisto MT", 30, "bold"),
 	        width=15,
 	        relief="raised",
 	        bd=4,
