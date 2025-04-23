@@ -34,6 +34,9 @@ class GameManager:
         self.table = [[] for i in range(size)]
 
     def djb2(self, key):
+        # Store all keys as lowercase
+        key = key.lower()
+
         # Standard djb2 hash function
         hash = 5381
         for c in key:
@@ -54,7 +57,8 @@ class GameManager:
         for index, row in file.iterrows():
             # During testing, found several errors being caused by erroneous titles
             # Check all titles for NaN, empty values, and empty space, and nonstring data types
-            title = row['name'].strip() if pandas.notna(row['name']) else None
+            # Make all titles lowercase
+            title = row['name'].strip().lower() if pandas.notna(row['name']) else None
             # If the title is invalid, move on
             if not title:
                 continue
@@ -139,15 +143,27 @@ class GameManager:
         # Return the result
         return result
 
-                
     # Pull recommendations based on the game title
     # Recommendations will be based on a formula that assigns different weights to each attribute of each game
     # of the same genre as the game being searched for
     def get_recommendations_by_title(self, key):
+        # Make sure key is lowercase
+        key = key.lower()
 
         # Check that key is valid
-        if key not in self.table:
+        index = self.hash(key)
+        # Check that the index is not empty
+        if self.table[index] is None:
             return [('ERRORNULL', [], [], [])]
+        # Check that the key is in the hash table
+        valid = False
+        for pair in self.table[index]:
+            if pair[0] == key:
+                valid = True
+                break
+        if not valid:
+            return [('ERRORNULL', [], [], [])]
+                
         
         # Store the games' genres
         genres = self.get(key).genres
@@ -184,10 +200,17 @@ class GameManager:
             else:
                 break
 
+        for game in recommendations:
+            # Print the game information
+            game.print()
+            print()
+
         # Return the recommendations as tuples with all the info needed by the UI
-        return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
+        return [(game.title.title(), game.genres, game.developers, game.platforms) for game in recommendations]
         
     def get_recommendations_by_genre(self, key):
+        # Make sure key is lowercase
+        key = key.lower()
 
         # Check that key is valid
         if key not in self.genre_map:
@@ -203,4 +226,4 @@ class GameManager:
                 break
         
         # Return the recommendations as tuples with all the info needed by the UI
-        return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
+        return [(game.title.title(), game.genres, game.developers, game.platforms) for game in recommendations]
