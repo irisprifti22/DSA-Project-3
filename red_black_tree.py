@@ -4,7 +4,9 @@ from math import log
 
 Red = "Red"
 Black = "Black"
-#initializing constants for the node colors
+
+
+# initializing constants for the node colors
 
 class RBTree:
     class Game:
@@ -26,10 +28,10 @@ class RBTree:
             print(f"Genres: {', '.join(self.genres)}")
             print(f"Publishers: {', '.join(self.publishers)}")
             print(f"Developers: {', '.join(self.developers)}")
+
     genre_map = {}
 
-
-    #initialize all variables
+    # initialize all variables
 
     class Node:
         # initialize class for nodes
@@ -40,39 +42,40 @@ class RBTree:
             self.right = None
             self.color = "red"
 
-    #red black tree class
+    # red black tree class
     def __init__(self):
         self.root = None
-        #set root node to nothing
+        # set root node to nothing
 
     def insert(self, game):
         newNode = self.Node(game)
         self.insertNode(newNode)
         self.balance(newNode)
-        #call other functions to insert new node properly
+        # call other functions to insert new node properly
 
     def insertNode(self, newNode):
         parentChance = None
         current = self.root
-        #begin at root
+        # begin at root
         while current != None:
-            #keep checking until a leaf
+            # keep checking until a leaf
             parentChance = current
             if newNode.data.title < current.data.title:
-                #compare aplhabeitcally
+                # compare aplhabeitcally
                 current = current.left
             else:
                 current = current.right
-                #left less than, right if greater than
+                # left less than, right if greater than
         newNode.parent = parentChance
         if parentChance is None:
             self.root = newNode
-            #tree is empty so newNode is root
+            # tree is empty so newNode is root
         elif newNode.data.title < parentChance.data.title:
             parentChance.left = newNode
         else:
             parentChance.right = newNode
-    #node insertion logic with BST logic
+
+    # node insertion logic with BST logic
 
     def getUncle(self, node):
         grandparent = self.getGrandparent(node)
@@ -82,13 +85,15 @@ class RBTree:
             return grandparent.right
         else:
             return grandparent.left
-    #helper function to get uncle for fixes
+
+    # helper function to get uncle for fixes
 
     def getGrandparent(self, node):
         if node != None and node.parent != None:
             return node.parent.parent
         return None
-    #helper function to get grandparent for fixes
+
+    # helper function to get grandparent for fixes
 
     def balance(self, node):
         while node.parent and node.parent.color == Red:
@@ -121,62 +126,64 @@ class RBTree:
                 self.rotateLeft(grandparent)
 
         self.root.color = Black
-    #balance function, cited/inspired from Aman's lecture video on Red Black: Insert
+
+    # balance function, cited/inspired from Aman's lecture video on Red Black: Insert
 
     def rotateLeft(self, node):
         rightChild = node.right
         node.right = rightChild.left
-        #swap left child with the right child
+        # swap left child with the right child
         if rightChild.left != None:
             rightChild.left.parent = node
-            #checks if exist to update parent
+            # checks if exist to update parent
         rightChild.parent = node.parent
         if node.parent == None:
             self.root = rightChild
-            #if node was root, update to right child
+            # if node was root, update to right child
         elif node == node.parent.left:
             node.parent.left = rightChild
-            #if left, update parents left to right child
+            # if left, update parents left to right child
         else:
             node.parent.right = rightChild
-            #update parent right to right child
+            # update parent right to right child
         rightChild.left = node
         node.parent = rightChild
-    #rotate left function
+
+    # rotate left function
 
     def rotateRight(self, node):
-        leftChild = node.left # get left child
+        leftChild = node.left  # get left child
         node.left = leftChild.right
         if leftChild.right != None:
             leftChild.right.parent = node
         leftChild.parent = node.parent
         if node.parent == None:
             self.root = leftChild
-            #if it's the root, swap to left child
+            # if it's the root, swap to left child
         elif node == node.parent.right:
             node.parent.right = leftChild
-            #if node was right child, update parent right
+            # if node was right child, update parent right
         else:
             node.parent.left = leftChild
-            #otherwise update parent left
+            # otherwise update parent left
         leftChild.right = node
         node.parent = leftChild
-    #right rotate helper function
+
+    # right rotate helper function
 
     def get(self, title):
         current = self.root
         while current != None:
-            #traverse until leaf
+            # traverse until leaf
             if title == current.data.title:
                 return current.data
-            #base case once title found
+            # base case once title found
             elif title < current.data.title:
                 current = current.left
             else:
                 current = current.right
-            #traverses based on if title = or < or > until equal to
+            # traverses based on if title = or < or > until equal to
         return None
-
 
     def read(self):
         # Read the data from the csv file
@@ -188,7 +195,7 @@ class RBTree:
         for index, row in file.iterrows():
             # During testing, found several errors being caused by erroneous titles
             # Check all titles for NaN, empty values, and empty space, and nonstring data types
-            title = row['name'].strip() if pandas.notna(row['name']) else None
+            title = row['name'].strip().lower() if pandas.notna(row['name']) else None
             # If the title is invalid, move on
             if not title:
                 continue
@@ -208,7 +215,7 @@ class RBTree:
             developers = row['developers'].split('||') if pandas.notna(row['developers']) else []
 
             # Create a new game object
-            game = self.Game(title, metacritic, playtime, platforms, genres, publishers, developers)
+            game = self.Game(title.lower(), metacritic, playtime, platforms, genres, publishers, developers)
 
             self.insert(game)  # Insert game directly into the Red-Black Tree
 
@@ -220,7 +227,7 @@ class RBTree:
                 self.genre_map[genre].append(game)
 
     def relevance(self, key1, key2):
-        # Get both games from the hash table
+        # Get both games from the table
         game1 = self.get(key1)
         game2 = self.get(key2)
 
@@ -260,9 +267,10 @@ class RBTree:
     # Recommendations will be based on a formula that assigns different weights to each attribute of each game
     # of the same genre as the game being searched for
     def get_recommendations_by_title(self, key):
+        key = key.lower()
 
-        # Check that key is valid
-        if key not in self.table:
+        game = self.get(key)
+        if game is None:
             return [('ERRORNULL', [], [], [])]
 
         # Store the games' genres
@@ -300,14 +308,11 @@ class RBTree:
             else:
                 break
 
-        for game in recommendations:
-            # Print the game information
-            game.print()
-            print()
         # Return the recommendations as tuples with all the info needed by the UI
-        return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
+        return [(game.title.title(), game.genres, game.developers, game.platforms) for game in recommendations]
 
     def get_recommendations_by_genre(self, key):
+        key = key.lower()
 
         # Check that key is valid
         if key not in self.genre_map:
@@ -322,5 +327,4 @@ class RBTree:
             else:
                 break
         # Return the recommendations as tuples with all the info needed by the UI
-        return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
-
+        return [(game.title.title(), game.genres, game.developers, game.platforms) for game in recommendations]
