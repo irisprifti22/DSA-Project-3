@@ -324,11 +324,3 @@ class RBTree:
         # Return the recommendations as tuples with all the info needed by the UI
         return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
 
-
-
-
-
-
-
-
-
