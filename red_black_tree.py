@@ -260,6 +260,11 @@ class RBTree:
     # Recommendations will be based on a formula that assigns different weights to each attribute of each game
     # of the same genre as the game being searched for
     def get_recommendations_by_title(self, key):
+
+        # Check that key is valid
+        if key not in self.table:
+            return [('ERRORNULL', [], [], [])]
+
         # Store the games' genres
         genres = self.get(key).genres
 
@@ -303,6 +308,11 @@ class RBTree:
         return [(game.title, game.genres, game.developers, game.platforms) for game in recommendations]
 
     def get_recommendations_by_genre(self, key):
+
+        # Check that key is valid
+        if key not in self.genre_map:
+            return [('ERRORNULL', [], [], [])]
+
         # Get the top 10 games from the genre in the genre map
         recommendations = []
         for i in range(10):
