@@ -126,3 +126,4 @@ class SearchGenreScreen(tk.Tk):
 
 if __name__ == "__main__":
     SearchGenreScreen().mainloop()
+    
